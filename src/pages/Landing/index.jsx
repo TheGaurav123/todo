@@ -43,7 +43,7 @@ const Landing = () => {
 
     return (
         <div className={`flex flex-col justify-center items-center gap-y-12 ${todos.length === 0 && 'min-h-screen'}`}>
-            <Heading title="Todo" className={'text-4xl mt-4'} />
+            <Heading title="Todo" className={'text-4xl mt-8'} />
 
             <form className='flex flex-col gap-5'>
                 <Input
