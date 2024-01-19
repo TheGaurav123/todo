@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import { Heading, Input, PrimaryButton, TodoCard } from '../../components/'
+import { Heading, Input, PrimaryButton, Tabs, TodoCard } from '../../components/'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTodo } from '../../features/todo/todoSlice'
 import { TODO_STATUS } from '../../constants'
 
 const Landing = () => {
+    // Redux
     const dispatch = useDispatch()
     const todos = useSelector(state => state.todo)
+
+    // States
     const [input, setInput] = useState({
         text: '',
     })
@@ -15,6 +18,7 @@ const Landing = () => {
         option: TODO_STATUS['ACTIVE']
     })
 
+    // Methods
     const handleAddTodo = (e) => {
         e.preventDefault()
         const { text } = input
@@ -41,6 +45,25 @@ const Landing = () => {
         return cards
     }
 
+    // Tabs (Active, Completed, All)
+    const tabs = [
+        {
+            id: 1,
+            label: 'Active',
+            name: TODO_STATUS['ACTIVE']
+        },
+        {
+            id: 2,
+            label: 'Completed',
+            name: TODO_STATUS['COMPLETED']
+        },
+        {
+            id: 3,
+            label: 'All',
+            name: 'All'
+        },
+    ]
+
     return (
         <div className={`flex flex-col justify-center items-center gap-y-12 ${todos.length === 0 && 'min-h-screen'}`}>
             <Heading title="Todo" className={'text-4xl mt-8'} />
@@ -62,11 +85,11 @@ const Landing = () => {
 
             {todos.length !== 0 &&
                 <div className='flex flex-col gap-10 w-full lg:w-1/2 h-[700px] overflow-y-auto p-4'>
-                    <div role="tablist" className="tabs tabs-bordered sticky -top-11">
-                        <button name={TODO_STATUS['ACTIVE']} onClick={handleTabChange} role="tab" className={`tab cursor-pointer ${filter.option === TODO_STATUS['ACTIVE'] && 'tab-active'}`}>Active</button>
-                        <button name={TODO_STATUS['COMPLETED']} onClick={handleTabChange} role="tab" className={`tab cursor-pointer ${filter.option === TODO_STATUS['COMPLETED'] && 'tab-active'}`}>Completed</button>
-                        <button name='All' onClick={handleTabChange} role="tab" className={`tab cursor-pointer ${filter.option !== TODO_STATUS['ACTIVE'] && filter.option !== TODO_STATUS['COMPLETED'] && 'tab-active'}`}> All</button>
-                    </div>
+                    <Tabs
+                        currentTab={filter.option}
+                        items={tabs}
+                        onChange={handleTabChange}
+                    />
                     {
                         filteredRender()?.map((val) => {
                             return (

@@ -53,43 +53,58 @@ class TodoCard extends Component {
   render() {
     return (
       <div className='flex shadow text-2xl items-center justify-between gap-14 p-3 rounded bg-base-300 '>
-        {this.state.isEdit ? (
-          <input
-            onChange={(e) => this.setState({ ...this.state, todo: { ...this.state.todo, text: e.target.value } })}
-            value={this.state.todo.text}
-            className='bg-transparent border-b-[1px] outline-none'
-          />
-        ) : (
-          <Heading
-            title={this.state.todo.text}
-            className={`${this.state.todo.status === TODO_STATUS['COMPLETED'] && 'line-through'}`}
-          />
-        )}
-        <div className='flex gap-3'>
-          {this.state.isEdit ? (
-            <IconButton
-              icon={MdCheck}
-              onClick={this.handleUpdateText}
-              color={'orange'}
-            />
-          ) : (
-            (this.state.todo.status !== TODO_STATUS['COMPLETED'] && (
-              <IconButton
-                icon={MdEdit}
-                onClick={() => this.setState({ isEdit: true })}
+        {
+          this.state.isEdit ?
+            (
+              <input
+                onChange={(e) => this.setState({ ...this.state, todo: { ...this.state.todo, text: e.target.value } })}
+                value={this.state.todo.text}
+                className='bg-transparent border-b-[1px] outline-none'
               />
-            ))
-          )}
+            )
+            :
+            (
+              <Heading
+                title={this.state.todo.text}
+                className={`${this.state.todo.status === TODO_STATUS['COMPLETED'] && 'line-through'}`}
+              />
+            )
+        }
+        <div className='flex gap-3'>
+          {
+            this.state.isEdit ?
+              (
+                <IconButton
+                  icon={MdCheck}
+                  onClick={this.handleUpdateText}
+                  color={'orange'}
+                />
+              )
+              :
+              (
+                (this.state.todo.status !== TODO_STATUS['COMPLETED']
+                  &&
+                  (
+                    <IconButton
+                      icon={MdEdit}
+                      onClick={() => this.setState({ isEdit: true })}
+                    />
+                  )
+                )
+              )
+          }
 
-          {this.state.todo.status !== TODO_STATUS['COMPLETED'] &&
-            !this.state.isEdit && (
+          {
+            this.state.todo.status !== TODO_STATUS['COMPLETED'] && !this.state.isEdit &&
+            (
               <IconButton
                 onClick={this.handleUpdateStatus}
                 icon={MdCheckCircleOutline}
                 color={'greenyellow'}
               />
-            )}
-
+            )
+          }
+          
           <IconButton
             onClick={this.handleRemove}
             icon={MdDelete}
