@@ -13,12 +13,28 @@ class TodoCard extends Component {
 
     this.state = {
       isEdit: false,
+      /*
+        In the Below section we have ability to directly set the 
+        props values to their correspoding keys but as per the assignment
+        we have to use one life-cycle methods with class component so I'm 
+        just following it and using a life-cycle method called componentDidMount.
+      */
       todo: {
-        id: props.content.id,
-        text: props.content.text,
-        status: props.content.status,
+        id: null,
+        text: null,
+        status: null,
       },
     };
+  }
+
+  loadState(props) {
+    this.setState({
+      todo: {
+        id: props?.content?.id,
+        text: props.content.text,
+        status: props.content.status,
+      }
+    })
   }
 
   handleRemove = () => {
@@ -49,6 +65,11 @@ class TodoCard extends Component {
     this.handleUpdate(payload);
     this.setState({ todo: payload });
   };
+
+  // A Life-Cycle method of a class based component
+  componentDidMount() {
+    this.loadState(this.props)
+  }
 
   render() {
     return (
@@ -104,7 +125,7 @@ class TodoCard extends Component {
               />
             )
           }
-          
+
           <IconButton
             onClick={this.handleRemove}
             icon={MdDelete}
